@@ -25,7 +25,7 @@ Using composer
 composer require pfaffkam/essa
 ```
 
-You can follow next steps which is described in [get started manual](./doc/00-get-started.md).
+You can follow next steps which is described in [get started manual](./doc/10-start.md).
 
 ## Current dependencies
 To make this scaffold useful, there are some concrete implementations,
