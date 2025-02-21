@@ -1,0 +1,11 @@
+services:
+  essa-lib:
+    image: essa-lib:local
+    container_name: essa-lib
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: app-dev
+    volumes:
+      - ./:/app

@@ -1,0 +1,40 @@
+services:
+
+  # >----------->
+  # >>> Aliases
+  # >----------->
+  PfaffKIT\Essa\EventSourcing\EventClassResolver: '@essa.event_class_resolver'
+  PfaffKIT\Essa\EventSourcing\Storage\EventStorage: '@essa.event_storage'
+  PfaffKIT\Essa\EventSourcing\Storage\AggregateRepository: '@essa.event_aggregate_repository'
+  PfaffKIT\Essa\EventSourcing\Serializer\EventSerializer: '@essa.event_serializer'
+
+  # >------------------->
+  # >>> Implementations
+  # >------------------->
+  essa.event_storage:
+    class: PfaffKIT\Essa\EventSourcing\Storage\FallbackEventStorage # Will be replaced further in the bundle configuration
+    public: true
+    autowire: true
+
+  essa.event_class_resolver:
+    class: PfaffKIT\Essa\EventSourcing\EventClassResolver
+    public: true
+    autoconfigure: true
+    autowire: true
+
+  essa.event_serializer:
+    class: PfaffKIT\Essa\EventSourcing\Serializer\JsonEventSerializer
+    public: true
+    autowire: true
+
+  # >------------->
+  # >>> Internals
+  # >------------->
+
+  # > Configurator
+  PfaffKIT\Essa\Internal\ConfiguratorCommand:
+    public: true
+    autoconfigure: true
+    arguments:
+      $container: '@service_container'
+      $configurators: !tagged essa.configurator
