@@ -31,13 +31,12 @@ class PfaffEssaBundle extends AbstractBundle
 
         $rootNode
             ->scalarNode('default_event_storage')->defaultNull()->end();
-
         // Load extension configs
-        $extensionsNode = $rootNode->arrayNode('extensions')->children();
+        $extensionsNode = $rootNode->arrayNode('extensions')->addDefaultsIfNotSet()->children();
         /** @var ExtensionConfig $config */
         foreach (self::CONFIGS as $config) {
             $config::configure(
-                $extensionsNode->arrayNode($config::getExtensionName())->children()
+                $extensionsNode->arrayNode($config::getExtensionName())->addDefaultsIfNotSet()->children()
             );
         }
         $extensionsNode->end();
@@ -56,7 +55,7 @@ class PfaffEssaBundle extends AbstractBundle
                 ->class($config['default_event_storage']);
         }
 
-        $this->loadConfigs($container);
+        $this->loadConfigs($container, $builder, $config);
         $this->loadConfigurators($container);
     }
 
@@ -67,7 +66,7 @@ class PfaffEssaBundle extends AbstractBundle
         $container->addCompilerPass(new EventResolverCompilerPass());
     }
 
-    private function loadConfigs(ContainerConfigurator $container): void
+    private function loadConfigs(ContainerConfigurator $container, ContainerBuilder $containerBuilder, array $bundleConfig): void
     {
         foreach (self::CONFIGS as $config) {
             if (!class_exists($config)) {
@@ -76,7 +75,8 @@ class PfaffEssaBundle extends AbstractBundle
 
             $container->services()
                 ->set('essa.extension-config.'.$config::getExtensionName(), $config)
-                ->public();
+                ->factory([$config, 'instantiate'])->args([$bundleConfig['extensions'][$config::getExtensionName()]])
+                ->alias($config, 'essa.extension-config.'.$config::getExtensionName());
         }
     }
 

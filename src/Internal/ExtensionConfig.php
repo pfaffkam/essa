@@ -4,9 +4,12 @@ namespace PfaffKIT\Essa\Internal;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 abstract class ExtensionConfig
 {
+    abstract public static function instantiate(array $config): self;
+
     abstract public static function getExtensionName(): string;
 
     abstract public static function configure(NodeBuilder $nodeBuilder): void;
