@@ -108,13 +108,15 @@ class JsonEventSerializerTest extends TestCase
     {
         return [
             'test_event' => [
-                new TestAggregateEvent( // object
-                    $id = Id::new(),
+                $ev = new TestAggregateEvent( // object
+                    Id::new(),
+                    Id::new(),
                     new \DateTimeImmutable('2025-02-03T02:40:10.369998+01:00'),
                     'sample string event data',
                 ),
                 $o = [ // normalized
-                    '_id' => (string) $id,
+                    '_aggregateId' => (string) $ev->aggregateId,
+                    '_id' => (string) $ev->eventId,
                     '_name' => 'test_event',
                     '_timestamp' => '2025-02-03T02:40:10.369998+01:00',
                     '_payload' => [
@@ -125,9 +127,11 @@ class JsonEventSerializerTest extends TestCase
             ],
             'test_derived_event' => [
                 $ev = new TestDerivedAggregateEvent(
+                    Id::new(),
                     'sample string derived event data'
                 ),
-                $o = [// normalized
+                $o = [ // normalized
+                    '_aggregateId' => (string) $ev->aggregateId,
                     '_id' => (string) $ev->eventId,
                     '_name' => 'test_derived_event',
                     '_timestamp' => $ev->timestamp->format(JsonEventSerializer::DATE_TIME_FORMAT),

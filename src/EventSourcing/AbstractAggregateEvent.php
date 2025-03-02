@@ -8,13 +8,17 @@ use PfaffKIT\Essa\Shared\Identity;
 abstract readonly class AbstractAggregateEvent implements AggregateEvent
 {
     public Identity $eventId;
+    public Identity $aggregateId; // This is set 'magically' by the ESAggregateRoot - to allow clean constructor property promotion.
     public \DateTimeImmutable $timestamp;
 
-    public function __construct(?Identity $eventId = null, ?string $name = null, ?\DateTimeImmutable $timestamp = null)
+    public function __construct(?Identity $eventId = null, ?\DateTimeImmutable $timestamp = null, ?Identity $aggregateId = null)
     {
         $this->eventId = $eventId ?? Id::new();
         $this->timestamp = $timestamp ?? new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
 
+        if (null !== $aggregateId) {
+            $this->aggregateId = $aggregateId;
+        }
     }
 
     abstract public static function getEventName(): string;

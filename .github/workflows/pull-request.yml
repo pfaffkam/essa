@@ -1,0 +1,26 @@
+name: Pull request CI
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - closed
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  unit_tests:
+    name: Run UNIT tests
+    if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened' || github.event.action == 'synchronize')
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+
+      - name: Run tests
+        run: |
+          docker compose -f docker-compose.yml run --build --rm test
