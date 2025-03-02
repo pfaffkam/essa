@@ -23,4 +23,13 @@ jobs:
 
       - name: Run tests
         run: |
-          docker compose -f docker-compose.yml run --build --rm test
+          mkdir -m 775 -p ./data 
+          docker compose -f docker-compose.yml run --build --rm -v ${PWD}/data:/app/data test --log-junit=./data/report.xml
+
+      - name: Generate test results
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          name: Unit Tests
+          path: ./data/report.xml
+          reporter: java-junit

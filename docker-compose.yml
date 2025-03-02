@@ -18,5 +18,5 @@ services:
       context: .
       dockerfile: Dockerfile
       target: app-test
-    command: 'php ./vendor/bin/phpunit'
+    entrypoint: ['php', './vendor/bin/phpunit']
     profiles: ["test"]
