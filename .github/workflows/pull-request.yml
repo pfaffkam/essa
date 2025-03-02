@@ -23,7 +23,8 @@ jobs:
 
       - name: Run tests
         run: |
-          mkdir -m 775 -p ./data 
+          mkdir -m 775 -p ./data
+          chown ${USER}:0 ./data
           docker compose -f docker-compose.yml run --build --rm -v ${PWD}/data:/app/data test --log-junit=./data/report.xml
 
       - name: Generate test results
