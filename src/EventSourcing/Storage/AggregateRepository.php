@@ -9,7 +9,7 @@ interface AggregateRepository
 {
     public function persist(ESAggregateRoot $root): void;
 
-    public function getById(Identity $id): ESAggregateRoot;
+    public function getById(Identity $id): ?ESAggregateRoot;
 
     /** @return class-string */
     public static function getType(): string;

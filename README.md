@@ -45,3 +45,12 @@ Due to packagist mechanics, all ESSA extensions are stored in separate repositor
 | [pfaffkam/essa-storage-doctrine-connector](https://github.com/pfaffkam/essa-storage-doctrine-connector) | pfaffkit/essa-storage-doctrine-connector | Storage connector | Utilises Doctrine ORM to store events. |
 |
 |
+
+## Development
+To minimize pain of setting up development environment, you should download all related repositories using following command:
+```bash
+mkdir -p essa-family ; cd essa-family \
+&& git clone git@github.com:pfaffkam/essa.git \
+&& git clone git@github.com:pfaffkam/essa-recipes.git \
+&& git clone git@github.com:pfaffkam/essa-storage-doctrine-connector.git
+```
