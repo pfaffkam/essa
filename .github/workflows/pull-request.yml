@@ -30,24 +30,11 @@ jobs:
           docker compose -f docker-compose.yml run --build --rm -v ${PWD}/data:/app/data test --log-junit=./data/report.xml
           ls -la ./data
 
-#          docker compose -f docker-compose.yml run --build --rm -v ${PWD}/data:/app/data test --log-junit=./data/report.xml
-# https://github.com/marketplace/actions/publish-test-results
-
       - name: Generate test results
         uses: EnricoMi/publish-unit-test-result-action@v2
-        if: success() || failure()
+        if: always()
         with:
+          check_name: Unit Tests
+          comment_mode: failures
           files: |
-            data/*.xml
-#          name: Unit Tests
-#          path: data/report.xml
-#          reporter: jest-junit
-
-
-#      - name: Generate test results
-#        uses: dorny/test-reporter@v1
-#        if: success() || failure()
-#        with:
-#          name: Unit Tests
-#          path: data/report.xml
-#          reporter: jest-junit
+            ./data/*.xml
