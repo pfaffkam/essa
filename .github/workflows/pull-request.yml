@@ -24,13 +24,16 @@ jobs:
       - name: Run tests
         run: |
           mkdir -m 777 -p ./data
-          docker compose -f docker-compose.yml run --build --rm -v ${PWD}/data:/app/data test --log-junit=./data/report.xml
+          docker compose -f docker-compose.yml run --build --rm -v ${PWD}/data:/app/data test --testdox-text=./data/report.xml
           ls -la ./data 
+          cat ./data/report.xml >> $GITHUB_STEP_SUMMARY
 
-      - name: Generate test results
-        uses: dorny/test-reporter@v1
-        if: success() || failure()
-        with:
-          name: Unit Tests
-          path: data/report.xml
-          reporter: jest-junit
+#          docker compose -f docker-compose.yml run --build --rm -v ${PWD}/data:/app/data test --log-junit=./data/report.xml
+
+#      - name: Generate test results
+#        uses: dorny/test-reporter@v1
+#        if: success() || failure()
+#        with:
+#          name: Unit Tests
+#          path: data/report.xml
+#          reporter: jest-junit
