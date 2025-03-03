@@ -24,7 +24,7 @@ jobs:
       - name: Run tests
         run: |
           mkdir -m 777 -p ./data
-          docker compose -f docker-compose.yml run --build --rm -v ${PWD}/data:/app/data test --testdox-text=./data/report.xml
+          docker compose -f docker-compose.yml run --build --rm -v ${PWD}/data:/app/data test --testdox-html=./data/report.xml
           ls -la ./data 
           cat ./data/report.xml >> $GITHUB_STEP_SUMMARY
 
