@@ -26,11 +26,12 @@ class AggregateEventNormalizer implements NormalizerInterface, NormalizerAwareIn
     public function normalize(mixed $data, ?string $format = null, array $context = []): array
     {
         $context[self::NORMALIZER_ALREADY_CALLED] = true;
-        $context[AbstractNormalizer::IGNORED_ATTRIBUTES] = ['eventId', 'name', 'timestamp'];
+        $context[AbstractNormalizer::IGNORED_ATTRIBUTES] = ['aggregateId', 'eventId', 'name', 'timestamp'];
 
         $normalizedData = $this->baseNormalizer->normalize($data, 'json', $context);
 
         return [
+            '_aggregateId' => (string) $data->aggregateId,
             '_id' => (string) $data->eventId,
             '_name' => $data->getEventName(),
             '_timestamp' => $this->baseNormalizer->normalize($data->timestamp, 'json', $context),
@@ -52,10 +53,10 @@ class AggregateEventNormalizer implements NormalizerInterface, NormalizerAwareIn
         $context[self::DENORMALIZER_ALREADY_CALLED] = true;
 
         // flatten data
+        $data['aggregateId'] = $data['_aggregateId'];
         $data['eventId'] = $data['_id'];
-//        $data['name'] = $data['_name'];
         $data['timestamp'] = $data['_timestamp'];
-        unset($data['_id'], $data['_name'], $data['_timestamp']);
+        unset($data['_aggreteId'], $data['_id'], $data['_name'], $data['_timestamp']);
 
         $data = array_merge($data, $data['_payload']);
         unset($data['_payload']);

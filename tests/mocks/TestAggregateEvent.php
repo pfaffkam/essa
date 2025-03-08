@@ -8,6 +8,7 @@ use PfaffKIT\Essa\Shared\Identity;
 class TestAggregateEvent implements AggregateEvent
 {
     public function __construct(
+        public Identity $aggregateId,
         public Identity $eventId,
         public \DateTimeImmutable $timestamp,
 

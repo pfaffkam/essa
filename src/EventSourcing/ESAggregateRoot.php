@@ -57,6 +57,11 @@ abstract class ESAggregateRoot
     protected function recordThat(AggregateEvent $event): void
     {
         $this->recordedEvents[] = $event;
+
+        // nasty way to set aggregate id on event
+        $aggregateIdSetter = fn ($id) => $this->aggregateId = $id;
+        $aggregateIdSetter->call($event, $this->id);
+
         $this->apply($event);
     }
 

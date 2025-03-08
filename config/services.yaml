@@ -7,6 +7,7 @@ services:
   PfaffKIT\Essa\EventSourcing\Storage\EventStorage: '@essa.event_storage'
   PfaffKIT\Essa\EventSourcing\Storage\AggregateRepository: '@essa.event_aggregate_repository'
   PfaffKIT\Essa\EventSourcing\Serializer\EventSerializer: '@essa.event_serializer'
+  PfaffKIT\Essa\EventSourcing\EventBus: '@essa.event_bus'
 
   # >------------------->
   # >>> Implementations
@@ -27,6 +28,13 @@ services:
     public: true
     autowire: true
 
+  essa.event_bus:
+    class: PfaffKIT\Essa\EventSourcing\InMemorySymfonyEventBus
+    public: true
+    autowire: true
+#    arguments:
+#      $bus: '@essa.bus.event'
+
   # >------------->
   # >>> Internals
   # >------------->
@@ -38,3 +46,8 @@ services:
     arguments:
       $container: '@service_container'
       $configurators: !tagged essa.configurator
+
+#  PfaffKIT\Essa\DependencyInjection\FrameworkExtension:
+#    public: true
+#    autoconfigure: true
+#    autowire: true

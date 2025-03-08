@@ -10,6 +10,7 @@ use PfaffKIT\Essa\Shared\Identity;
  */
 interface AggregateEvent
 {
+    public Identity $aggregateId { get; }
     public Identity $eventId { get; }
     public \DateTimeImmutable $timestamp { get; }
 
