@@ -1,8 +1,7 @@
 <?php
 
-namespace PfaffKIT\Essa;
+namespace PfaffKIT\Essa\EventSourcing;
 
-use PfaffKIT\Essa\EventSourcing\Projection;
 use PfaffKIT\Essa\Shared\Identity;
 
 interface ProjectionRepository

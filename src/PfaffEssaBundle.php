@@ -3,6 +3,7 @@
 namespace PfaffKIT\Essa;
 
 use PfaffKIT\Essa\CompilerPass\EventResolverCompilerPass;
+use PfaffKIT\Essa\DependencyInjection\MessageBusDI;
 use PfaffKIT\Essa\Internal\ExtensionConfig;
 use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
 use Symfony\Component\Config\FileLocator;
@@ -48,12 +49,19 @@ class PfaffEssaBundle extends AbstractBundle
         $loader = new YamlFileLoader($builder, new FileLocator($this->getPath().'/config'));
         $loader->load('services.yaml');
 
+        // Create dependency services
+        MessageBusDI::registerEventBus('essa.bus.event', $builder);
+
         // Load event storage
         if ($config['default_event_storage']) {
             $container->services()
                 ->get('essa.event_storage')
                 ->class($config['default_event_storage']);
         }
+
+        // Load event bus - PASS BUS CREATED IN APP INSTEAD OF MY OWN ....
+        // ...
+        // also - read the ES projects (or maybe texter/notifier code) to create transport here
 
         $this->loadConfigs($container, $builder, $config);
         $this->loadConfigurators($container);

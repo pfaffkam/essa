@@ -4,15 +4,14 @@ namespace PfaffKIT\Essa\EventSourcing\Storage;
 
 use PfaffKIT\Essa\EventSourcing\AggregateEvent;
 use PfaffKIT\Essa\EventSourcing\ESAggregateRoot;
+use PfaffKIT\Essa\EventSourcing\EventBus;
 use PfaffKIT\Essa\Shared\Identity;
-use Symfony\Component\Messenger\MessageBus;
-use Symfony\Component\Messenger\MessageBusInterface;
 
 abstract class AbstractAggregateRepository implements AggregateRepository
 {
     public function __construct(
         private readonly EventStorage $storage,
-        private readonly MessageBusInterface $messageBus,
+        private readonly EventBus $eventBus,
     ) {}
 
     public function persist(ESAggregateRoot $root): void
@@ -23,10 +22,7 @@ abstract class AbstractAggregateRepository implements AggregateRepository
         $events = $eventExtractor->call($root);
 
         $this->storage->save($root->id, $events);
-
-//        foreach ($events as $event) {
-//            $this->messageBus->dispatch($event);
-//        }
+        $this->eventBus->dispatch(...$events);
     }
 
     public function getById(Identity $id): ?ESAggregateRoot
