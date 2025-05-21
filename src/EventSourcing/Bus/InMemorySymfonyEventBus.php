@@ -1,7 +1,9 @@
 <?php
 
-namespace PfaffKIT\Essa\EventSourcing;
+namespace PfaffKIT\Essa\EventSourcing\Bus;
 
+use PfaffKIT\Essa\EventSourcing\AggregateEvent;
+use PfaffKIT\Essa\EventSourcing\EventBus;
 use PfaffKIT\Essa\EventSourcing\Exception\ProjectionEventException;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\Exception\HandlerFailedException;
