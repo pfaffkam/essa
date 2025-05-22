@@ -8,12 +8,12 @@ use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 #[Autoconfigure(tags: [Projector::class])]
 interface Projector
 {
-    /** Creates new projection, or updates existing projection. */
-//    public function project(array $events, ?Projection $projection): Projection;
+    /* Creates new projection, or updates existing projection. */
+    //    public function project(array $events, ?Projection $projection): Projection;
 
-    /** Saves projection to storage */
-//    public function save(Projection $projection): void;
+    /* Saves projection to storage */
+    //    public function save(Projection $projection): void;
 
-    /** Static type of projection which is supported by this projector */
-    public static function projectionType(): string;
+    //    /** Static type of projection which is supported by this projector */
+    //    public static function projectionType(): string;
 }

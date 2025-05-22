@@ -9,6 +9,7 @@ services:
   PfaffKIT\Essa\EventSourcing\Serializer\EventSerializer: '@essa.event_serializer'
   PfaffKIT\Essa\EventSourcing\Serializer\ProjectionSerializer: '@essa.projection_serializer'
   PfaffKIT\Essa\EventSourcing\EventBus: '@essa.event_bus'
+  PfaffKIT\Essa\EventSourcing\Projection\ProjectionManagerInterface: '@essa.projection_manager'
 
   # >------------------->
   # >>> Implementations
@@ -38,8 +39,11 @@ services:
     class: PfaffKIT\Essa\EventSourcing\Bus\InMemorySymfonyEventBus
     public: true
     autowire: true
-#    arguments:
-#      $bus: '@essa.bus.event'
+
+  essa.projection_manager:
+    class: PfaffKIT\Essa\EventSourcing\Projection\ProjectionManager
+    public: true
+    autowire: true
 
   # >------------->
   # >>> Internals

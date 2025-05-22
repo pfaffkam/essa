@@ -1,0 +1,14 @@
+# System info
+- We are using PHP 8.4
+- All commands are ran under Windows Powershell. Do not try to use bash syntax.
+
+# General Code Style & Formatting
+- Do NOT put line `declare(strict_types=1);` in the files.
+- After you done with writing some code, please fix your work using php cs-fixer. You can do that using following command: `php .\vendor\bin\php-cs-fixer fix PATH_TO_FILE_OR_DIR`
+- When you writing some more complex functionalities (like managers, services, or any other logic) please automatically generate tests for them.
+
+# Tests
+- You need to maintain same test style across tests. When it is possible, use attributes instead of annotations.
+- For other style info, you can get inspired by reading existing tests (e.g. `/tests/JsonEventSerializerTest.php`)
+- Always after you modify some tests or test related code, RUN the tests!
+- Never create some 'mock' classes in the same file that tests. You should create them in a separate file (one per file), in ./tests/mocks or similar directory.

@@ -17,5 +17,10 @@ interface ProjectionRepository
 
     public function findOneBy(array $criteria): ?Projection;
 
-    public static function projectionType(): string;
+    /**
+     * Returns the FQCN of the Projection class this repository handles.
+     *
+     * @return class-string<Projection>
+     */
+    public static function getProjectionClass(): string;
 }

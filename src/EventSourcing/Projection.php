@@ -13,6 +13,20 @@ interface Projection
     /** String name of storage to allow refactoring  */
     public static function getProjectionName(): string;
 
+    /**
+     * Returns the FQCN of the Projector class for this projection.
+     *
+     * @return class-string<Projector>
+     */
+    public static function getProjectorClass(): string;
+
+    /**
+     * Returns the FQCN of the Repository class for this projection.
+     *
+     * @return class-string<ProjectionRepository>
+     */
+    public static function getRepositoryClass(): string;
+
     //    /** Resolve event */
     //    protected function apply(AggregateEvent $event): void;
 }
