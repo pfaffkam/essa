@@ -7,6 +7,8 @@ use PfaffKIT\Essa\Shared\Identity;
 
 interface EventStorage
 {
+    public const int DEFAULT_BATCH_SIZE = 100;
+
     /**
      * @param AggregateEvent[] $aggregateEvents
      */
@@ -16,4 +18,19 @@ interface EventStorage
      * @return AggregateEvent[]
      */
     public function load(Identity $aggregateId): array;
+
+    /**
+     * Loads events in batches with optional type filtering.
+     *
+     * @param int      $offset     The offset to start from
+     * @param int      $batchSize  Maximum number of events to return in one batch
+     * @param string[] $eventTypes Array of event class names to filter by (empty means all types)
+     *
+     * @return iterable<AggregateEvent[]>
+     */
+    public function loadInBatches(
+        int $offset = 0,
+        int $batchSize = self::DEFAULT_BATCH_SIZE,
+        array $eventTypes = [],
+    ): iterable;
 }

@@ -13,6 +13,6 @@ interface Projection
     /** String name of storage to allow refactoring  */
     public static function getProjectionName(): string;
 
-//    /** Resolve event */
-//    protected function apply(AggregateEvent $event): void;
+    //    /** Resolve event */
+    //    protected function apply(AggregateEvent $event): void;
 }

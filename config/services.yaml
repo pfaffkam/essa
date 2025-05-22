@@ -7,6 +7,7 @@ services:
   PfaffKIT\Essa\EventSourcing\Storage\EventStorage: '@essa.event_storage'
   PfaffKIT\Essa\EventSourcing\Storage\AggregateRepository: '@essa.event_aggregate_repository'
   PfaffKIT\Essa\EventSourcing\Serializer\EventSerializer: '@essa.event_serializer'
+  PfaffKIT\Essa\EventSourcing\Serializer\ProjectionSerializer: '@essa.projection_serializer'
   PfaffKIT\Essa\EventSourcing\EventBus: '@essa.event_bus'
 
   # >------------------->
@@ -25,6 +26,11 @@ services:
 
   essa.event_serializer:
     class: PfaffKIT\Essa\EventSourcing\Serializer\JsonEventSerializer
+    public: true
+    autowire: true
+
+  essa.projection_serializer:
+    class: PfaffKIT\Essa\EventSourcing\Serializer\JsonProjectionSerializer
     public: true
     autowire: true
 
