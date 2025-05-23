@@ -22,15 +22,17 @@ interface EventStorage
     /**
      * Loads events in batches with optional type filtering.
      *
-     * @param int      $offset     The offset to start from
-     * @param int      $batchSize  Maximum number of events to return in one batch
-     * @param string[] $eventTypes Array of event class names to filter by (empty means all types)
+     * @param int $offset    The offset to start from
+     * @param int $batchSize Maximum number of events to return in one batch
      *
      * @return iterable<AggregateEvent[]>
      */
     public function loadInBatches(
         int $offset = 0,
         int $batchSize = self::DEFAULT_BATCH_SIZE,
-        array $eventTypes = [],
+        array $limitEventTypes = [],
+        array $limitAggregateIds = [],
     ): iterable;
+
+    public function count(array $limitEventTypes = [], array $limitAggregateIds = []): int;
 }

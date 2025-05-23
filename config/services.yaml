@@ -1,5 +1,4 @@
 services:
-
   # >----------->
   # >>> Aliases
   # >----------->
@@ -75,8 +74,3 @@ services:
     arguments:
       $container: '@service_container'
       $configurators: !tagged essa.configurator
-
-#  PfaffKIT\Essa\DependencyInjection\FrameworkExtension:
-#    public: true
-#    autoconfigure: true
-#    autowire: true

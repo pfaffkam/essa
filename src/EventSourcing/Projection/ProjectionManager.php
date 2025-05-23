@@ -3,24 +3,23 @@
 namespace PfaffKIT\Essa\EventSourcing\Projection;
 
 use PfaffKIT\Essa\Shared\Identity;
-use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 
 class ProjectionManager implements ProjectionManagerInterface
 {
     /** @var array<string, ProjectionRepository> */
-    private array $repositoriesByProjectionName = [];
+    private array $repositoriesByProjection = [];
 
     /**
      * @param iterable<ProjectionRepository> $repositories
      */
     public function __construct(
-        #[TaggedIterator(ProjectionRepository::class)]
+        #[AutowireIterator(ProjectionRepository::class)]
         iterable $repositories,
     ) {
         foreach ($repositories as $repository) {
-            $projectionClass = $repository::getProjectionClass();
-            $projectionName = $projectionClass::getProjectionName();
-            $this->repositoriesByProjectionName[$projectionName] = $repository;
+            $projection = $repository::getProjectionClass();
+            $this->repositoriesByProjection[$projection] = $repository;
         }
     }
 
@@ -39,13 +38,11 @@ class ProjectionManager implements ProjectionManagerInterface
             throw new \InvalidArgumentException(sprintf('Class "%s" is not a valid Projection class. It must implement %s', $projectionClass, Projection::class));
         }
 
-        $projectionName = $projectionClass::getProjectionName();
-
-        if (!isset($this->repositoriesByProjectionName[$projectionName])) {
+        if (!isset($this->repositoriesByProjection[$projectionClass])) {
             throw new \RuntimeException(sprintf('No repository found for projection "%s"', $projectionClass));
         }
 
-        return $this->repositoriesByProjectionName[$projectionName];
+        return $this->repositoriesByProjection[$projectionClass];
     }
 
     /**
@@ -88,6 +85,11 @@ class ProjectionManager implements ProjectionManagerInterface
     public function findOneBy(string $projectionClass, array $criteria): ?Projection
     {
         return $this->getRepository($projectionClass)->findOneBy($criteria);
+    }
+
+    public function deleteBy(string $projectionClass, array $criteria): int
+    {
+        return $this->getRepository($projectionClass)->deleteBy($criteria);
     }
 
     /**

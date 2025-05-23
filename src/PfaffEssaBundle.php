@@ -4,7 +4,7 @@ namespace PfaffKIT\Essa;
 
 use PfaffKIT\Essa\CompilerPass\EventResolverCompilerPass;
 use PfaffKIT\Essa\CompilerPass\HandlerLocatorCompilerPass;
-use PfaffKIT\Essa\DependencyInjection\MessageBusDI;
+use PfaffKIT\Essa\EventSourcing\Projection\ProjectionRepository;
 use PfaffKIT\Essa\Internal\ExtensionConfig;
 use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
 use Symfony\Component\Config\FileLocator;
@@ -92,6 +92,9 @@ class PfaffEssaBundle extends AbstractBundle
     public function build(ContainerBuilder $container): void
     {
         parent::build($container);
+
+        $container->registerForAutoconfiguration(ProjectionRepository::class)
+            ->addTag(ProjectionRepository::class);
 
         $container->addCompilerPass(new EventResolverCompilerPass());
         $container->addCompilerPass(new HandlerLocatorCompilerPass());

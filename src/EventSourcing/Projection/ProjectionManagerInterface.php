@@ -51,6 +51,14 @@ interface ProjectionManagerInterface
     public function findOneBy(string $projectionClass, array $criteria): ?Projection;
 
     /**
+     * Removes projections by the given criteria.
+     * Returns the number of removed projections.
+     *
+     * @param class-string<Projection> $projectionClass
+     */
+    public function deleteBy(string $projectionClass, array $criteria): int;
+
+    /**
      * Saves a projection.
      */
     public function save(Projection $projection): void;
