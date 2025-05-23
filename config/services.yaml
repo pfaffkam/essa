@@ -9,6 +9,7 @@ services:
   PfaffKIT\Essa\EventSourcing\Serializer\EventSerializer: '@essa.event_serializer'
   PfaffKIT\Essa\EventSourcing\Serializer\ProjectionSerializer: '@essa.projection_serializer'
   PfaffKIT\Essa\EventSourcing\EventBus: '@essa.event_bus'
+  PfaffKIT\Essa\EventSourcing\Projection\Bus\ProjectionBus: '@essa.projection_bus'
   PfaffKIT\Essa\EventSourcing\Projection\ProjectionManagerInterface: '@essa.projection_manager'
 
   # >------------------->
@@ -40,6 +41,11 @@ services:
     public: true
     autowire: true
 
+  essa.projection_bus:
+    class: PfaffKIT\Essa\EventSourcing\Projection\Bus\InMemorySymfonyProjectionBus
+    public: true
+    autowire: true
+
   essa.projection_manager:
     class: PfaffKIT\Essa\EventSourcing\Projection\ProjectionManager
     public: true
@@ -51,6 +57,16 @@ services:
   # > Messenger
   PfaffKIT\Essa\EventSourcing\Projection\HandlerFilterMiddleware:
     tags: [ 'messenger.middleware' ]
+
+  PfaffKIT\Essa\EventSourcing\Projection\ProjectionGeneralHandler:
+    autowire: true
+    autoconfigure: true
+
+  # > Tools
+  PfaffKIT\Essa\SymfonyCommand\RebuildProjectionCommand:
+    public: true
+    autoconfigure: true
+    autowire: true
 
   # > Configurator
   PfaffKIT\Essa\Internal\ConfiguratorCommand:

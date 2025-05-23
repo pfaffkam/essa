@@ -2,12 +2,12 @@
 
 namespace PfaffKIT\Essa\EventSourcing\Exception;
 
-class ProjectionEventException extends \Exception
+class EventHandlerException extends \Exception implements EssaException
 {
     public function __construct(?\Throwable $previous = null)
     {
         parent::__construct(
-            message: 'An error occurred while projecting event.',
+            message: 'An error occurred while handling event.',
             previous: $previous
         );
     }

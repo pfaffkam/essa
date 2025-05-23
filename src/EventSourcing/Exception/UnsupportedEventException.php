@@ -2,7 +2,7 @@
 
 namespace PfaffKIT\Essa\EventSourcing\Exception;
 
-class UnsupportedEventException extends \Exception
+class UnsupportedEventException extends \Exception implements EssaException
 {
     public function __construct(string $eventName)
     {

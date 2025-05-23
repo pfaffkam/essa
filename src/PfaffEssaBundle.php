@@ -72,6 +72,12 @@ class PfaffEssaBundle extends AbstractBundle
                     'essa.bus.event' => [
                         'default_middleware' => [
                             'enabled' => true,
+                            'allow_no_handlers' => false,
+                        ],
+                    ],
+                    'essa.bus.projection' => [
+                        'default_middleware' => [
+                            'enabled' => true,
                             'allow_no_handlers' => true,
                         ],
                         'middleware' => [

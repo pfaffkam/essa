@@ -8,7 +8,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 class AsProjector extends AsMessageHandler
 {
     public function __construct(
-        ?string $bus = 'essa.bus.event',
+        ?string $bus = 'essa.bus.projection',
         ?string $fromTransport = null,
         ?string $handles = null,
         ?string $method = null,

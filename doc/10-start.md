@@ -48,7 +48,7 @@ final readonly class UserCreated extends AbstractAggregateEvent
 ```
 
 III. Now we need to create some service which will be responsible for persistence - the **repository**. 
-You can do it  by extending `AbstractAggregateRepository` class.
+You can do it by extending `AbstractAggregateRepository` class.
 ```php
 final class UserRepository extends AbstractAggregateRepository {}
 ```

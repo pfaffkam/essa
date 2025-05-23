@@ -11,15 +11,15 @@ class HandlerLocatorCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('essa.bus.event')) {
+        if (!$container->hasDefinition('essa.bus.projection')) {
             return;
         }
 
-        $container->register('essa.bus.event.handler_locator', ProjectionHandlerLocator::class)
+        $container->register('essa.bus.projection.handler_locator', ProjectionHandlerLocator::class)
             ->setAutowired(true)
-            ->setDecoratedService('essa.bus.event.messenger.handlers_locator')
+            ->setDecoratedService('essa.bus.projection.messenger.handlers_locator')
             ->setArguments([
-                new Reference('essa.bus.event.handler_locator.inner'),
+                new Reference('essa.bus.projection.handler_locator.inner'),
             ]);
     }
 }
