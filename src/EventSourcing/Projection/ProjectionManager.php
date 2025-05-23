@@ -1,6 +1,6 @@
 <?php
 
-namespace PfaffKIT\Essa\EventSourcing;
+namespace PfaffKIT\Essa\EventSourcing\Projection;
 
 use PfaffKIT\Essa\Shared\Identity;
 use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
@@ -55,7 +55,7 @@ class ProjectionManager implements ProjectionManagerInterface
      *
      * @param class-string<T> $projectionClass
      *
-     * @return T|null
+     * @return Projection<T>|null
      */
     public function find(string $projectionClass, Identity $id): ?Projection
     {
@@ -69,7 +69,7 @@ class ProjectionManager implements ProjectionManagerInterface
      *
      * @param class-string<T> $projectionClass
      *
-     * @return T[]
+     * @return Projection<T>[]
      */
     public function findBy(string $projectionClass, array $criteria): array
     {
@@ -83,7 +83,7 @@ class ProjectionManager implements ProjectionManagerInterface
      *
      * @param class-string<T> $projectionClass
      *
-     * @return T|null
+     * @return Projection<T>|null
      */
     public function findOneBy(string $projectionClass, array $criteria): ?Projection
     {

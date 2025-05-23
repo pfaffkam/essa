@@ -2,7 +2,7 @@
 
 namespace PfaffKIT\Essa\EventSourcing\Serializer;
 
-use PfaffKIT\Essa\EventSourcing\Projection;
+use PfaffKIT\Essa\EventSourcing\Projection\Projection;
 use PfaffKIT\Essa\EventSourcing\Serializer\Normalizer\IdentityNormalizer;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;

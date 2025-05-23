@@ -1,6 +1,6 @@
 <?php
 
-namespace PfaffKIT\Essa\EventSourcing;
+namespace PfaffKIT\Essa\EventSourcing\Projection;
 
 use PfaffKIT\Essa\Shared\Identity;
 
@@ -26,7 +26,4 @@ interface Projection
      * @return class-string<ProjectionRepository>
      */
     public static function getRepositoryClass(): string;
-
-    //    /** Resolve event */
-    //    protected function apply(AggregateEvent $event): void;
 }

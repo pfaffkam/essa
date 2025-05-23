@@ -6,4 +6,5 @@ namespace PfaffKIT\Essa\EventSourcing;
 interface EventBus
 {
     public function dispatch(AggregateEvent ...$events): void;
+    public function dispatchStamped(array $stamps, AggregateEvent ...$events): void;
 }

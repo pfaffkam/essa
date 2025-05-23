@@ -2,7 +2,7 @@
 
 namespace PfaffKIT\Essa\Tests\mocks;
 
-use PfaffKIT\Essa\EventSourcing\Projection;
+use PfaffKIT\Essa\EventSourcing\Projection\Projection;
 use PfaffKIT\Essa\Shared\Identity;
 
 class AnotherTestProjection implements Projection

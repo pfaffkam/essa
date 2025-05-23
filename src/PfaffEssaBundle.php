@@ -3,6 +3,7 @@
 namespace PfaffKIT\Essa;
 
 use PfaffKIT\Essa\CompilerPass\EventResolverCompilerPass;
+use PfaffKIT\Essa\CompilerPass\HandlerLocatorCompilerPass;
 use PfaffKIT\Essa\DependencyInjection\MessageBusDI;
 use PfaffKIT\Essa\Internal\ExtensionConfig;
 use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
@@ -50,7 +51,7 @@ class PfaffEssaBundle extends AbstractBundle
         $loader->load('services.yaml');
 
         // Create dependency services
-        MessageBusDI::registerEventBus('essa.bus.event', $builder);
+        //        MessageBusDI::registerEventBus('essa.bus.event', $builder);
 
         // Load event storage
         if ($config['default_event_storage']) {
@@ -59,12 +60,27 @@ class PfaffEssaBundle extends AbstractBundle
                 ->class($config['default_event_storage']);
         }
 
-        // Load event bus - PASS BUS CREATED IN APP INSTEAD OF MY OWN ....
-        // ...
-        // also - read the ES projects (or maybe texter/notifier code) to create transport here
-
         $this->loadConfigs($container, $builder, $config);
         $this->loadConfigurators($container);
+    }
+
+    public function prependExtension(ContainerConfigurator $container, ContainerBuilder $builder): void
+    {
+        $builder->prependExtensionConfig('framework', [
+            'messenger' => [
+                'buses' => [
+                    'essa.bus.event' => [
+                        'default_middleware' => [
+                            'enabled' => true,
+                            'allow_no_handlers' => true,
+                        ],
+                        'middleware' => [
+                            'PfaffKIT\Essa\EventSourcing\Projection\HandlerFilterMiddleware',
+                        ],
+                    ],
+                ],
+            ],
+        ]);
     }
 
     public function build(ContainerBuilder $container): void
@@ -72,6 +88,7 @@ class PfaffEssaBundle extends AbstractBundle
         parent::build($container);
 
         $container->addCompilerPass(new EventResolverCompilerPass());
+        $container->addCompilerPass(new HandlerLocatorCompilerPass());
     }
 
     private function loadConfigs(ContainerConfigurator $container, ContainerBuilder $containerBuilder, array $bundleConfig): void

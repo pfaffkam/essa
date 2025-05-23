@@ -2,7 +2,7 @@
 
 namespace PfaffKIT\Essa\Tests;
 
-use PfaffKIT\Essa\EventSourcing\Projection;
+use PfaffKIT\Essa\EventSourcing\Projection\Projection;
 use PfaffKIT\Essa\EventSourcing\Serializer\JsonProjectionSerializer;
 use PfaffKIT\Essa\EventSourcing\Serializer\ProjectionSerializer;
 use PfaffKIT\Essa\Shared\Id;

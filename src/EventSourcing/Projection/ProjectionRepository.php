@@ -1,6 +1,6 @@
 <?php
 
-namespace PfaffKIT\Essa\EventSourcing;
+namespace PfaffKIT\Essa\EventSourcing\Projection;
 
 use PfaffKIT\Essa\Shared\Identity;
 use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;

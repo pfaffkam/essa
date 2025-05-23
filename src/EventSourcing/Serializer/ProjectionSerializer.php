@@ -2,7 +2,7 @@
 
 namespace PfaffKIT\Essa\EventSourcing\Serializer;
 
-use PfaffKIT\Essa\EventSourcing\Projection;
+use PfaffKIT\Essa\EventSourcing\Projection\Projection;
 
 interface ProjectionSerializer
 {
@@ -18,7 +18,7 @@ interface ProjectionSerializer
      *
      * @param class-string<T> $type
      *
-     * @return T
+     * @return Projection<T>
      */
     public function deserialize(string $data, string $type): Projection;
 
@@ -37,7 +37,7 @@ interface ProjectionSerializer
      * @param array<string, mixed> $data
      * @param class-string<T>      $type
      *
-     * @return T
+     * @return Projection<T>
      */
     public function denormalize(array $data, string $type): Projection;
 

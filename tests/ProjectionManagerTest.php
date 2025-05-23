@@ -2,8 +2,8 @@
 
 namespace PfaffKIT\Essa\Tests;
 
-use PfaffKIT\Essa\EventSourcing\ProjectionManager;
-use PfaffKIT\Essa\EventSourcing\ProjectionManagerInterface;
+use PfaffKIT\Essa\EventSourcing\Projection\ProjectionManager;
+use PfaffKIT\Essa\EventSourcing\Projection\ProjectionManagerInterface;
 use PfaffKIT\Essa\Shared\Id;
 use PfaffKIT\Essa\Tests\mocks\AnotherTestProjection;
 use PfaffKIT\Essa\Tests\mocks\TestProjection;

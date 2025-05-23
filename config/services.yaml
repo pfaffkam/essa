@@ -48,6 +48,9 @@ services:
   # >------------->
   # >>> Internals
   # >------------->
+  # > Messenger
+  PfaffKIT\Essa\EventSourcing\Projection\HandlerFilterMiddleware:
+    tags: [ 'messenger.middleware' ]
 
   # > Configurator
   PfaffKIT\Essa\Internal\ConfiguratorCommand:

@@ -2,8 +2,8 @@
 
 namespace PfaffKIT\Essa\Tests\mocks;
 
-use PfaffKIT\Essa\EventSourcing\Projection;
-use PfaffKIT\Essa\EventSourcing\ProjectionRepository;
+use PfaffKIT\Essa\EventSourcing\Projection\Projection;
+use PfaffKIT\Essa\EventSourcing\Projection\ProjectionRepository;
 use PfaffKIT\Essa\Shared\Identity;
 
 class TestProjectionRepository implements ProjectionRepository
