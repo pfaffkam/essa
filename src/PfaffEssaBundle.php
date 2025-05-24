@@ -21,10 +21,12 @@ class PfaffEssaBundle extends AbstractBundle
 
     private const array CONFIGURATORS = [
         'PfaffKIT\Essa\Adapters\Storage\Config\EntityConfigurator',
+        'PfaffKIT\Essa\Adapters\StorageMongo\Config\EnvironmentConfigurator',
     ];
 
     private const array CONFIGS = [
         'PfaffKIT\Essa\Adapters\Storage\Config\Config',
+        'PfaffKIT\Essa\Adapters\StorageMongo\Config\Config',
     ];
 
     public function configure(DefinitionConfigurator $definition): void
@@ -49,9 +51,6 @@ class PfaffEssaBundle extends AbstractBundle
     {
         $loader = new YamlFileLoader($builder, new FileLocator($this->getPath().'/config'));
         $loader->load('services.yaml');
-
-        // Create dependency services
-        //        MessageBusDI::registerEventBus('essa.bus.event', $builder);
 
         // Load event storage
         if ($config['default_event_storage']) {
@@ -107,10 +106,22 @@ class PfaffEssaBundle extends AbstractBundle
                 continue;
             }
 
+            $serviceId = 'essa.extension-config.'.$config::getExtensionName();
+
+            // Register the service
             $container->services()
-                ->set('essa.extension-config.'.$config::getExtensionName(), $config)
-                ->factory([$config, 'instantiate'])->args([$bundleConfig['extensions'][$config::getExtensionName()]])
-                ->alias($config, 'essa.extension-config.'.$config::getExtensionName());
+                ->set($serviceId, $config)
+                ->public()
+                ->factory([$config, 'instantiate'])
+                ->args([$bundleConfig['extensions'][$config::getExtensionName()] ?? []]);
+
+            // Set up the alias
+            $container->services()
+                ->alias($config, $serviceId)
+                ->public();
+
+            // instantiate the config and call loadExtension
+            $config::loadExtension($bundleConfig['extensions'][$config::getExtensionName()] ?? [], $container, $containerBuilder);
         }
     }
 

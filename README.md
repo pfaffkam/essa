@@ -52,5 +52,6 @@ To minimize pain of setting up development environment, you should download all 
 mkdir -p essa-family ; cd essa-family \
 && git clone git@github.com:pfaffkam/essa.git \
 && git clone git@github.com:pfaffkam/essa-recipes.git \
-&& git clone git@github.com:pfaffkam/essa-storage-doctrine-connector.git
+&& git clone git@github.com:pfaffkam/essa-storage-doctrine-connector.git \
+&& git clone git@github.com:pfaffkam/essa-storage-mongodb-connector.git
 ```
