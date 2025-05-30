@@ -55,6 +55,27 @@ class TestProjectionRepository implements ProjectionRepository
     public function findOneBy(array $criteria): ?Projection
     {
         $results = $this->findBy($criteria);
+
         return $results[0] ?? null;
+    }
+
+    public function deleteBy(array $criteria): int
+    {
+        $count = 0;
+
+        if (isset($criteria['id'])) {
+            $searchId = $criteria['id'];
+            foreach ($this->projections as $key => $projection) {
+                if ($projection->id->toBinary() === $searchId) {
+                    unset($this->projections[$key]);
+                    ++$count;
+                }
+            }
+        } else {
+            $count = count($this->projections);
+            $this->projections = [];
+        }
+
+        return $count;
     }
 }

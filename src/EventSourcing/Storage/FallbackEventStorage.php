@@ -21,10 +21,16 @@ class FallbackEventStorage implements EventStorage
     public function loadInBatches(
         int $offset = 0,
         int $batchSize = self::DEFAULT_BATCH_SIZE,
-        array $eventTypes = [],
+        array $limitEventTypes = [],
+        array $limitAggregateIds = [],
     ): iterable {
         $this->generateException();
         yield from []; // This line will never be reached but satisfies static analysis
+    }
+
+    public function count(array $limitEventTypes = [], array $limitAggregateIds = []): int
+    {
+        $this->generateException();
     }
 
     private function generateException(): void

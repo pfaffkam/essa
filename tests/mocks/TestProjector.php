@@ -2,13 +2,16 @@
 
 namespace PfaffKIT\Essa\Tests\mocks;
 
+use PfaffKIT\Essa\EventSourcing\AggregateEvent;
+use PfaffKIT\Essa\EventSourcing\Projection\Projection;
 use PfaffKIT\Essa\EventSourcing\Projection\Projector;
-use PfaffKIT\Essa\Tests\mocks\TestEvent;
 
 class TestProjector implements Projector
 {
-    public function handleTestEvent(TestEvent $event): void
+    public function load(AggregateEvent $event): ?Projection
     {
-        // Handle the test event
+        return null;
     }
+
+    public function save(Projection $projection): void {}
 }

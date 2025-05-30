@@ -79,11 +79,14 @@ class PfaffEssaBundle extends AbstractBundle
                             'enabled' => true,
                             'allow_no_handlers' => true,
                         ],
-                        'middleware' => [
-                            'PfaffKIT\Essa\EventSourcing\Projection\HandlerFilterMiddleware',
-                        ],
                     ],
                 ],
+            ],
+        ]);
+
+        $builder->prependExtensionConfig('monolog', [
+            'channels' => [
+                'essa',
             ],
         ]);
     }

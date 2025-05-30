@@ -1,5 +1,5 @@
 services:
-  essa-lib: # required for
+  essa-lib: # local development
     image: essa-lib:local
     container_name: essa-lib
     restart: unless-stopped

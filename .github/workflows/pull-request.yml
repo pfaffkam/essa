@@ -13,27 +13,10 @@ defaults:
     shell: bash
 
 jobs:
-  unit_tests:
-    name: Run UNIT tests
+  csfixer:
     if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened' || github.event.action == 'synchronize')
-    runs-on: ubuntu-24.04
-    permissions:
-      checks: write
-      pull-requests: write
-    steps:
-      - name: Clone repository
-        uses: actions/checkout@v4
+    uses: pfaffkam/essa/.github/workflows/csfixer.yml
 
-      - name: Run tests
-        run: |
-          mkdir -m 777 -p ./data
-          docker compose -f docker-compose.yml run --build --rm -v ${PWD}/data:/app/data test --log-junit=./data/report.xml
-
-      - name: Generate test results
-        uses: EnricoMi/publish-unit-test-result-action@v2
-        if: always()
-        with:
-          check_name: Unit Tests
-          comment_mode: failures
-          files: |
-            ./data/*.xml
+  unit_tests:
+    if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened' || github.event.action == 'synchronize')
+    uses: pfaffkam/essa/.github/workflows/phpunit.yml

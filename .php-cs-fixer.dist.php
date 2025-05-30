@@ -13,4 +13,4 @@ return (new PhpCsFixer\Config())
         'trailing_comma_in_multiline' => ['elements' => ['arrays', 'parameters']],
     ])
     ->setFinder($finder)
-    ;
+;
