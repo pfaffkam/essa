@@ -20,3 +20,5 @@ services:
       target: app-test
     entrypoint: ['php', './vendor/bin/phpunit']
     profiles: ["test"]
+    environment:
+      PHP_CS_FIXER_IGNORE_ENV: 1
