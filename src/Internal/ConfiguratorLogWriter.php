@@ -30,10 +30,10 @@ readonly class ConfiguratorLogWriter
 
     public function ask(string $question, ?string $default = null, ?callable $validator = null): string
     {
-        while(true) {
+        while (true) {
             $response = $this->io->ask(sprintf("\t <fg=yellow>q</>     %s", $question), $default);
 
-            if ($validator === null || $validator($response)) {
+            if (null === $validator || $validator($response)) {
                 break;
             }
 

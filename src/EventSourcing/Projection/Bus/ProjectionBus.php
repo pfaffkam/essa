@@ -8,5 +8,6 @@ use PfaffKIT\Essa\EventSourcing\AggregateEvent;
 interface ProjectionBus
 {
     public function dispatch(AggregateEvent ...$events): void;
+
     public function dispatchStamped(array $stamps, AggregateEvent ...$events): void;
 }
