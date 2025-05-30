@@ -15,8 +15,8 @@ defaults:
 jobs:
   csfixer:
     if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened' || github.event.action == 'synchronize')
-    uses: pfaffkam/essa/.github/workflows/csfixer.yml
+    uses: ./csfixer.yml # pfaffkam/essa/.github/workflows/csfixer.yml@develop
 
   unit_tests:
     if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened' || github.event.action == 'synchronize')
-    uses: pfaffkam/essa/.github/workflows/phpunit.yml
+    uses: ./phpunit.yml # pfaffkam/essa/.github/workflows/phpunit.yml@develop
