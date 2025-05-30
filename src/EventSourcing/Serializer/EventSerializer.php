@@ -10,6 +10,7 @@ interface EventSerializer
      * Fully serialize event from object to string.
      */
     public function serialize(AggregateEvent $event): string;
+
     /**
      * Fully deserialize event from string to object.
      */
@@ -19,6 +20,7 @@ interface EventSerializer
      * Normalize event to array.
      */
     public function normalize(AggregateEvent $event): array;
+
     /**
      * Denormalize event from array.
      */
@@ -28,6 +30,7 @@ interface EventSerializer
      * Encode array to string.
      */
     public function encode(array $data): string;
+
     /**
      * Decode string to array.
      */

@@ -4,7 +4,8 @@ namespace PfaffKIT\Essa\Internal;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 abstract class ExtensionConfig
 {
@@ -13,6 +14,8 @@ abstract class ExtensionConfig
     abstract public static function getExtensionName(): string;
 
     abstract public static function configure(NodeBuilder $nodeBuilder): void;
+
+    abstract public static function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void;
 
     public static function generateDefaultConfig(): array
     {

@@ -1,0 +1,43 @@
+name: Run CSFIXER analyze
+
+on:
+  workflow_call:
+    inputs:
+      compose_file:
+        description: 'Docker compose file to run the container'
+        required: false
+        type: string
+        default: docker-compose.yml
+      runs_on:
+        description: 'Where to run the job'
+        required: false
+        type: string
+        default: ubuntu-24.04
+      continue_on_error:
+        description: 'Continue on error'
+        required: false
+        type: boolean
+        default: false
+      csfixer_config:
+        description: 'Path to csfixer config'
+        required: false
+        type: string
+        default: .php-cs-fixer.dist.php
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  csfixer:
+    name: Run CSFIXER analyze
+    runs-on: ${{ inputs.runs_on }}
+    continue-on-error: ${{ inputs.continue_on_error }}
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+
+      - name: Run docker with csfixer analyze
+        run: |
+          mkdir -m 777 -p ./data
+          docker compose -f ${{ inputs.compose_file }} run --build --rm --entrypoint 'php ./vendor/bin/php-cs-fixer' test check --config=${{ inputs.csfixer_config }}

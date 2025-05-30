@@ -14,10 +14,27 @@ class FallbackEventStorage implements EventStorage
     public function load(Identity $aggregateId): array
     {
         $this->generateException();
+
+        return []; // This line will never be reached but satisfies static analysis
+    }
+
+    public function loadInBatches(
+        int $offset = 0,
+        int $batchSize = self::DEFAULT_BATCH_SIZE,
+        array $limitEventTypes = [],
+        array $limitAggregateIds = [],
+    ): iterable {
+        $this->generateException();
+        yield from []; // This line will never be reached but satisfies static analysis
+    }
+
+    public function count(array $limitEventTypes = [], array $limitAggregateIds = []): int
+    {
+        $this->generateException();
     }
 
     private function generateException(): void
     {
-        throw new \LogicException('No implementation provided for EventStorage. Please install one of proper adapters or create your own.');
+        throw new \LogicException('No implementation provided for EventStorage. Please install one of the proper adapters or create your own.');
     }
 }

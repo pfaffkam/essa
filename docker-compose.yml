@@ -1,5 +1,5 @@
 services:
-  essa-lib:
+  essa-lib: # local development
     image: essa-lib:local
     container_name: essa-lib
     restart: unless-stopped
@@ -9,3 +9,16 @@ services:
       target: app-dev
     volumes:
       - ./:/app
+
+  test:
+    image: essa-lib:local-test
+    container_name: essa-lib-test
+    restart: no
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: app-test
+    entrypoint: ['php', './vendor/bin/phpunit']
+    profiles: ["test"]
+    environment:
+      PHP_CS_FIXER_IGNORE_ENV: 1

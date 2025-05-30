@@ -5,7 +5,7 @@ namespace PfaffKIT\Essa\Internal;
 class ExtensionConfigChanger
 {
     public function __construct(
-        private array $config
+        private array $config,
     ) {}
 
     public function get(string $key): string

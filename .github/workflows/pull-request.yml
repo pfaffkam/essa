@@ -1,0 +1,23 @@
+name: Pull request CI
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - closed
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  csfixer:
+    if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened' || github.event.action == 'synchronize')
+    uses: ./.github/workflows/csfixer.yml # pfaffkam/essa/.github/workflows/csfixer.yml@develop
+
+  unit_tests:
+    if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened' || github.event.action == 'synchronize')
+    uses: ./.github/workflows/phpunit.yml # pfaffkam/essa/.github/workflows/phpunit.yml@develop
