@@ -19,6 +19,6 @@ jobs:
           fetch-depth: 0
 
       - name: Tag version
-        uses: ./github/actions/tag
+        uses: ./.github/actions/tag
         with:
           release_type: minor
