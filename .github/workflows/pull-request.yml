@@ -14,10 +14,21 @@ defaults:
     shell: bash
 
 jobs:
-  csfixer:
-    if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened' || github.event.action == 'synchronize')
-    uses: ./.github/actions/csfixer.yml # pfaffkam/essa/.github/actions/csfixer.yml@master
+  static_analyze:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run CSFixer analyze
+        uses: ./.github/actions/csfixer
+        with:
+          compose_file: docker-compose.yml
+          csfixer_config: .php-cs-fixer.dist.php
 
   unit_tests:
-    if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened' || github.event.action == 'synchronize')
-    uses: ./.github/actions/phpunit.yml # pfaffkam/essa/.github/actions/phpunit.yml@master
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run unit tests
+        uses: ./.github/actions/phpunit
+        with:
+          compose_file: docker-compose.yml

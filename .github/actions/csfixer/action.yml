@@ -1,0 +1,28 @@
+name: CSFixer analyze
+description: Run CSFixer analyze
+
+inputs:
+  compose_file:
+    description: Path to docker-compose file.
+    required: true
+    type: string
+    default: docker-compose.yml
+  csfixer_config:
+    description: Path to csfixer config file
+    required: true
+    type: string
+    default: .php-cs-fixer.dist.php
+
+runs:
+  using: composite
+  steps:
+    - name: Run docker with csfixer analyze
+      shell: bash
+      run: >
+        docker compose 
+        -f ${{ inputs.compose_file }} 
+        run 
+        --build --rm 
+        --entrypoint 'php ./vendor/bin/php-cs-fixer' 
+        test 
+        check --config=${{ inputs.csfixer_config }}

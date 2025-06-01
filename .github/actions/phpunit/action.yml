@@ -1,0 +1,37 @@
+name: PHPUnit tests
+description: Run phpunit tests
+
+inputs:
+  compose_file:
+    description: Path to docker-compose file.
+    required: true
+    type: string
+    default: docker-compose.yml
+
+runs:
+  using: composite
+  steps:
+    - name: Prepare data dir
+      shell: bash
+      run: |
+        mkdir -m 777 -p ./data
+
+    - name: Run tests
+      shell: bash
+      run: >
+        docker compose 
+        -f docker-compose.yml
+        run 
+        --build --rm 
+        -v ${PWD}/data:/app/data 
+        test 
+        --log-junit=./data/report.xml
+
+    - name: Generate test results
+      uses: EnricoMi/publish-unit-test-result-action@v2
+      if: always()
+      with:
+        check_name: Unit Tests
+        comment_mode: failures
+        files: |
+          ./data/*.xml
