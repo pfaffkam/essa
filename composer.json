@@ -1,6 +1,5 @@
 {
     "name": "pfaffkit/essa",
-    "version": "1.0.0",
     "description": "Event Sourcing Scaffold Assembly",
     "type": "symfony-bundle",
     "license": "MIT",
