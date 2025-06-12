@@ -6,6 +6,8 @@ use PfaffKIT\Essa\CompilerPass\EventResolverCompilerPass;
 use PfaffKIT\Essa\CompilerPass\HandlerLocatorCompilerPass;
 use PfaffKIT\Essa\EventSourcing\Projection\ProjectionRepository;
 use PfaffKIT\Essa\Internal\ExtensionConfig;
+use PfaffKIT\Essa\Query\QueryHandler;
+use PfaffKIT\Essa\Shared\CommandHandler;
 use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -80,6 +82,19 @@ class PfaffEssaBundle extends AbstractBundle
                             'allow_no_handlers' => true,
                         ],
                     ],
+
+                    'essa.bus.command' => [
+                        'default_middleware' => [
+                            'enabled' => true,
+                            'allow_no_handlers' => false,
+                        ],
+                    ],
+                    'essa.bus.query' => [
+                        'default_middleware' => [
+                            'enabled' => true,
+                            'allow_no_handlers' => false,
+                        ],
+                    ],
                 ],
             ],
         ]);
@@ -97,6 +112,12 @@ class PfaffEssaBundle extends AbstractBundle
 
         $container->registerForAutoconfiguration(ProjectionRepository::class)
             ->addTag(ProjectionRepository::class);
+
+        $container->registerForAutoconfiguration(CommandHandler::class)
+            ->addTag('messenger.message_handler', ['bus' => 'essa.bus.command']);
+
+        $container->registerForAutoconfiguration(QueryHandler::class)
+            ->addTag('messenger.message_handler', ['bus' => 'essa.bus.query']);
 
         $container->addCompilerPass(new EventResolverCompilerPass());
         $container->addCompilerPass(new HandlerLocatorCompilerPass());

@@ -7,7 +7,7 @@ use PfaffKIT\Essa\EventSourcing\ESAggregateRoot;
 use PfaffKIT\Essa\EventSourcing\EventBus;
 use PfaffKIT\Essa\Shared\Identity;
 
-abstract class AbstractAggregateRepository implements AggregateRepository
+abstract class AbstractESAggregateRepository implements ESAggregateRepository
 {
     public function __construct(
         private readonly EventStorage $storage,
