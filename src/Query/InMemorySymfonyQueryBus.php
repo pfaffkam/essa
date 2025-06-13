@@ -2,7 +2,6 @@
 
 namespace PfaffKIT\Essa\Query;
 
-use App\Domain\SharedKernel\Infrastructure\Bus\Query\QueryNotRegisteredException;
 use Symfony\Component\DependencyInjection\Attribute\Target;
 use Symfony\Component\Messenger\Exception\NoHandlerForMessageException;
 use Symfony\Component\Messenger\MessageBusInterface;

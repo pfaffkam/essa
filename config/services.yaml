@@ -79,7 +79,19 @@ services:
     autowire: true
     autoconfigure: true
 
-  # > Tools
+  PfaffKIT\Essa\Query\ValidateQueryMiddleware:
+    autowire: true
+    autoconfigure: true
+
+  # An ugly way to use Symfony\Component\Messenger\DependencyInjection\MessengerPass
+  # to inject bus information into command.
+  console.command.messenger_debug:
+    class: 'PfaffKIT\Essa\SymfonyCommand\BusDebugCommand'
+    arguments: [[]]
+    public: true
+    autoconfigure: true
+    autowire: true
+
   PfaffKIT\Essa\SymfonyCommand\RebuildProjectionCommand:
     public: true
     autoconfigure: true

@@ -7,6 +7,7 @@ use PfaffKIT\Essa\CompilerPass\HandlerLocatorCompilerPass;
 use PfaffKIT\Essa\EventSourcing\Projection\ProjectionRepository;
 use PfaffKIT\Essa\Internal\ExtensionConfig;
 use PfaffKIT\Essa\Query\QueryHandler;
+use PfaffKIT\Essa\Query\ValidateQueryMiddleware;
 use PfaffKIT\Essa\Shared\CommandHandler;
 use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
 use Symfony\Component\Config\FileLocator;
@@ -37,6 +38,7 @@ class PfaffEssaBundle extends AbstractBundle
 
         $rootNode
             ->scalarNode('default_event_storage')->defaultNull()->end();
+
         // Load extension configs
         $extensionsNode = $rootNode->arrayNode('extensions')->addDefaultsIfNotSet()->children();
         /** @var ExtensionConfig $config */
@@ -90,6 +92,9 @@ class PfaffEssaBundle extends AbstractBundle
                         ],
                     ],
                     'essa.bus.query' => [
+                        'middleware' => [
+                            ValidateQueryMiddleware::class,
+                        ],
                         'default_middleware' => [
                             'enabled' => true,
                             'allow_no_handlers' => false,
