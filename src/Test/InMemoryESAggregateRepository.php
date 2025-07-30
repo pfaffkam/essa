@@ -17,6 +17,16 @@ class InMemoryESAggregateRepository implements ESAggregateRepository
     /** @param class-string<ESAggregateRoot> $type */
     public function __construct(private string $type) {}
 
+    public function extractEvents(Identity $id): array
+    {
+        return $this->data[(string) $id] ?? [];
+    }
+
+    public function injectEvents(Identity $id, AggregateEvent ...$events): void
+    {
+        isset($this->data[(string) $id]) ? array_push($this->data[(string) $id], $events) : $this->data[(string) $id] = $events;
+    }
+
     public function persist(ESAggregateRoot $root): void
     {
         $eventExtractor = fn () => $this->popRecordedEvents();
@@ -25,7 +35,7 @@ class InMemoryESAggregateRepository implements ESAggregateRepository
         $events = $eventExtractor->call($root);
 
         $id = (string) $root->id;
-        isset($this->data[$id]) ? array_push($this->data[$id], $events) : $this->data[$id] = $events;
+        isset($this->data[$id]) ? array_push($this->data[$id], ...$events) : $this->data[$id] = $events;
     }
 
     public function getById(Identity $id): ?ESAggregateRoot

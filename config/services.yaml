@@ -7,10 +7,12 @@ services:
   PfaffKIT\Essa\EventSourcing\Storage\AggregateRepository: '@essa.event_aggregate_repository'
   PfaffKIT\Essa\EventSourcing\Serializer\EventSerializer: '@essa.event_serializer'
   PfaffKIT\Essa\EventSourcing\Serializer\ProjectionSerializer: '@essa.projection_serializer'
+  PfaffKIT\Essa\IntegrationEvent\IntegrationEventSerializer: '@essa.integration_event_serializer'
   PfaffKIT\Essa\EventSourcing\EventBus: '@essa.event_bus'
   PfaffKIT\Essa\EventSourcing\Projection\Bus\ProjectionBus: '@essa.projection_bus'
   PfaffKIT\Essa\Command\CommandBus: '@essa.command_bus'
   PfaffKIT\Essa\Query\QueryBus: '@essa.query_bus'
+  PfaffKIT\Essa\IntegrationEvent\IntegrationEventBus: '@essa.integration_event_bus'
   PfaffKIT\Essa\EventSourcing\Projection\ProjectionManagerInterface: '@essa.projection_manager'
 
   # >------------------->
@@ -37,6 +39,9 @@ services:
     public: true
     autowire: true
 
+  essa.integration_event_serializer:
+    class: PfaffKIT\Essa\IntegrationEvent\JsonIntegrationEventSerializer
+
   essa.event_bus:
     class: PfaffKIT\Essa\EventSourcing\Bus\InMemorySymfonyEventBus
     public: true
@@ -54,6 +59,11 @@ services:
 
   essa.query_bus:
     class: PfaffKIT\Essa\Query\InMemorySymfonyQueryBus
+    public: true
+    autowire: true
+
+  essa.integration_event_bus:
+    class: PfaffKIT\Essa\IntegrationEvent\RabbitMqIntegrationEventBus
     public: true
     autowire: true
 

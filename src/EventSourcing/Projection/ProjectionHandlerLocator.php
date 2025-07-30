@@ -90,9 +90,6 @@ readonly class ProjectionHandlerLocator implements HandlersLocatorInterface
             return true;
         }
 
-        dump($this->getHandlerClass($handler));
-        dump($stamp->allowedHandlerClasses);
-
         return in_array($this->getHandlerClass($handler), $stamp->allowedHandlerClasses);
     }
 

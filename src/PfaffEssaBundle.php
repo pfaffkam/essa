@@ -9,6 +9,7 @@ use PfaffKIT\Essa\Internal\ExtensionConfig;
 use PfaffKIT\Essa\Query\QueryHandler;
 use PfaffKIT\Essa\Query\ValidateQueryMiddleware;
 use PfaffKIT\Essa\Shared\CommandHandler;
+use PfaffKIT\Essa\Shared\EventListener;
 use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -19,6 +20,7 @@ use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 class PfaffEssaBundle extends AbstractBundle
 {
     protected string $name = 'EssaBundle';
+    protected string $alias = 'essa';
 
     public const string CONFIG_FILE = 'config/packages/essa.yaml';
 
@@ -38,6 +40,7 @@ class PfaffEssaBundle extends AbstractBundle
 
         $rootNode
             ->scalarNode('default_event_storage')->defaultNull()->end();
+//            ->scalarNode('integration_event_amqp_dsn')->defaultNull()->end();
 
         // Load extension configs
         $extensionsNode = $rootNode->arrayNode('extensions')->addDefaultsIfNotSet()->children();
@@ -100,6 +103,13 @@ class PfaffEssaBundle extends AbstractBundle
                             'allow_no_handlers' => false,
                         ],
                     ],
+
+                    'essa.bus.integration_event' => [
+                        'default_middleware' => [
+                            'enabled' => true,
+                            'allow_no_handlers' => true,
+                        ],
+                    ],
                 ],
             ],
         ]);
@@ -123,6 +133,9 @@ class PfaffEssaBundle extends AbstractBundle
 
         $container->registerForAutoconfiguration(QueryHandler::class)
             ->addTag('messenger.message_handler', ['bus' => 'essa.bus.query']);
+
+        $container->registerForAutoconfiguration(EventListener::class)
+            ->addTag('messenger.message_handler', ['bus' => 'essa.bus.event']);
 
         $container->addCompilerPass(new EventResolverCompilerPass());
         $container->addCompilerPass(new HandlerLocatorCompilerPass());
