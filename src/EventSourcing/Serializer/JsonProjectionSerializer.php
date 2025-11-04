@@ -4,7 +4,9 @@ namespace PfaffKIT\Essa\EventSourcing\Serializer;
 
 use PfaffKIT\Essa\EventSourcing\Projection\Projection;
 use PfaffKIT\Essa\EventSourcing\Serializer\Normalizer\IdentityNormalizer;
+use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
+use Symfony\Component\PropertyInfo\PropertyInfoExtractor;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\BackedEnumNormalizer;
@@ -35,7 +37,7 @@ class JsonProjectionSerializer implements ProjectionSerializer
                     null,
                     null,
                     null,
-                    new ReflectionExtractor()
+                    new PropertyInfoExtractor(typeExtractors: [new PhpDocExtractor(), new ReflectionExtractor()]),
                 ),
                 new ArrayDenormalizer(),
             ],
