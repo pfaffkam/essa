@@ -2,6 +2,7 @@
 
 namespace PfaffKIT\Essa\EventSourcing;
 
+use PfaffKIT\Essa\Shared\EventTimestamp;
 use PfaffKIT\Essa\Shared\Identity;
 
 /**
@@ -12,7 +13,7 @@ interface AggregateEvent
 {
     public Identity $aggregateId { get; }
     public Identity $eventId { get; }
-    public \DateTimeImmutable $timestamp { get; }
+    public EventTimestamp $timestamp { get; }
 
     public static function getEventName(): string;
 }

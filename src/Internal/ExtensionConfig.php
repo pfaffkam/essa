@@ -17,6 +17,8 @@ abstract class ExtensionConfig
 
     abstract public static function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void;
 
+    abstract public static function prependExtension(ContainerConfigurator $container, ContainerBuilder $builder): void;
+
     public static function generateDefaultConfig(): array
     {
         $nodeBuilder = new ArrayNodeDefinition(static::getExtensionName())->children();

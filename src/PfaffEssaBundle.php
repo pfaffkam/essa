@@ -40,7 +40,6 @@ class PfaffEssaBundle extends AbstractBundle
 
         $rootNode
             ->scalarNode('default_event_storage')->defaultNull()->end();
-//            ->scalarNode('integration_event_amqp_dsn')->defaultNull()->end();
 
         // Load extension configs
         $extensionsNode = $rootNode->arrayNode('extensions')->addDefaultsIfNotSet()->children();
@@ -87,11 +86,13 @@ class PfaffEssaBundle extends AbstractBundle
                             'allow_no_handlers' => true,
                         ],
                     ],
-
                     'essa.bus.command' => [
                         'default_middleware' => [
                             'enabled' => true,
                             'allow_no_handlers' => false,
+                        ],
+                        'middleware' => [
+                            'doctrine_transaction',
                         ],
                     ],
                     'essa.bus.query' => [
@@ -119,6 +120,8 @@ class PfaffEssaBundle extends AbstractBundle
                 'essa',
             ],
         ]);
+
+        $this->prependConfigs($container, $builder);
     }
 
     public function build(ContainerBuilder $container): void
@@ -139,6 +142,18 @@ class PfaffEssaBundle extends AbstractBundle
 
         $container->addCompilerPass(new EventResolverCompilerPass());
         $container->addCompilerPass(new HandlerLocatorCompilerPass());
+    }
+
+    private function prependConfigs(ContainerConfigurator $container, ContainerBuilder $builder): void
+    {
+        // Prepend all addons
+        foreach (self::CONFIGS as $config) {
+            if (!class_exists($config)) {
+                continue;
+            }
+
+            $config::prependExtension($container, $builder);
+        }
     }
 
     private function loadConfigs(ContainerConfigurator $container, ContainerBuilder $containerBuilder, array $bundleConfig): void

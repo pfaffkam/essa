@@ -4,6 +4,7 @@ namespace PfaffKIT\Essa\EventSourcing\Serializer;
 
 use PfaffKIT\Essa\EventSourcing\AggregateEvent;
 use PfaffKIT\Essa\EventSourcing\Serializer\Normalizer\AggregateEventNormalizer;
+use PfaffKIT\Essa\EventSourcing\Serializer\Normalizer\EventTimestampNormalizer;
 use PfaffKIT\Essa\EventSourcing\Serializer\Normalizer\IdentityNormalizer;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -29,8 +30,11 @@ class JsonEventSerializer implements EventSerializer
 
         $normalizers = array_merge(
             [
-                new IdentityNormalizer(), new BackedEnumNormalizer(),
-                new DateTimeNormalizer([DateTimeNormalizer::FORMAT_KEY => self::DATE_TIME_FORMAT]),
+                new IdentityNormalizer(), new BackedEnumNormalizer(), new EventTimestampNormalizer(),
+                new DateTimeNormalizer([
+                    DateTimeNormalizer::FORMAT_KEY => self::DATE_TIME_FORMAT,
+                    DateTimeNormalizer::TIMEZONE_KEY => 'UTC',
+                ]),
                 new AggregateEventNormalizer(), new ArrayDenormalizer(),
                 new PropertyNormalizer(null, null, new ReflectionExtractor()),
             ],

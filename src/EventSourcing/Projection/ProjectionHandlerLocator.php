@@ -40,7 +40,7 @@ readonly class ProjectionHandlerLocator implements HandlersLocatorInterface
 
             // Should be applied only with AsProjector attributes.
             if (0 == count($reflectionMethod->getAttributes(AsProjector::class))) {
-                $this->essaLogger->error('Projector - used different attribute than AsProjector.');
+                $this->essaLogger->debug('Projector - handler filtered out - no as projector attribute.');
                 continue;
             }
 
