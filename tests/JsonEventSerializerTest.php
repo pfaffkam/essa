@@ -3,8 +3,10 @@
 namespace PfaffKIT\Essa\Tests;
 
 use PfaffKIT\Essa\EventSourcing\AggregateEvent;
+use PfaffKIT\Essa\EventSourcing\EventUpcasterChain;
 use PfaffKIT\Essa\EventSourcing\Serializer\EventSerializer;
 use PfaffKIT\Essa\EventSourcing\Serializer\JsonEventSerializer;
+use PfaffKIT\Essa\Shared\EventTimestamp;
 use PfaffKIT\Essa\Shared\Id;
 use PfaffKIT\Essa\Tests\mocks\TestAggregateEvent;
 use PfaffKIT\Essa\Tests\mocks\TestDerivedAggregateEvent;
@@ -21,7 +23,9 @@ class JsonEventSerializerTest extends TestCase
     {
         parent::setUp();
 
-        $this->serializer = new JsonEventSerializer();
+        $this->serializer = new JsonEventSerializer(
+            new EventUpcasterChain([])
+        );
     }
 
     #[DataProvider('getEventData')]
@@ -111,14 +115,16 @@ class JsonEventSerializerTest extends TestCase
                 $ev = new TestAggregateEvent( // object
                     Id::new(),
                     Id::new(),
-                    new \DateTimeImmutable('2025-02-03T02:40:10.369998+01:00'),
+                    new EventTimestamp(new \DateTimeImmutable('2025-02-03T02:40:10.369998+01:00')->getTimestamp()),
+                    1,
                     'sample string event data',
                 ),
                 $o = [ // normalized
                     '_aggregateId' => (string) $ev->aggregateId,
                     '_id' => (string) $ev->eventId,
                     '_name' => 'test_event',
-                    '_timestamp' => '2025-02-03T02:40:10.369998+01:00',
+                    '_timestamp' => 1738546810,
+                    '_version' => 1,
                     '_payload' => [
                         'stringData' => 'sample string event data',
                     ],
@@ -134,7 +140,8 @@ class JsonEventSerializerTest extends TestCase
                     '_aggregateId' => (string) $ev->aggregateId,
                     '_id' => (string) $ev->eventId,
                     '_name' => 'test_derived_event',
-                    '_timestamp' => $ev->timestamp->format(JsonEventSerializer::DATE_TIME_FORMAT),
+                    '_timestamp' => $ev->timestamp->epoch,
+                    '_version' => 1,
                     '_payload' => [
                         'stringData' => 'sample string derived event data',
                     ],

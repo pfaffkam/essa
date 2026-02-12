@@ -4,6 +4,7 @@ namespace PfaffKIT\Essa;
 
 use PfaffKIT\Essa\CompilerPass\EventResolverCompilerPass;
 use PfaffKIT\Essa\CompilerPass\HandlerLocatorCompilerPass;
+use PfaffKIT\Essa\EventSourcing\EventUpcaster;
 use PfaffKIT\Essa\EventSourcing\Projection\ProjectionRepository;
 use PfaffKIT\Essa\Internal\ExtensionConfig;
 use PfaffKIT\Essa\Query\QueryHandler;
@@ -39,7 +40,8 @@ class PfaffEssaBundle extends AbstractBundle
         $rootNode = $definition->rootNode()->children();
 
         $rootNode
-            ->scalarNode('default_event_storage')->defaultNull()->end();
+            ->scalarNode('default_event_storage')->defaultNull()->end()
+            ->scalarNode('default_snapshot_storage')->defaultNull()->end();
 
         // Load extension configs
         $extensionsNode = $rootNode->arrayNode('extensions')->addDefaultsIfNotSet()->children();
@@ -63,6 +65,13 @@ class PfaffEssaBundle extends AbstractBundle
             $container->services()
                 ->get('essa.event_storage')
                 ->class($config['default_event_storage']);
+        }
+
+        // Load snapshot storage
+        if ($config['default_snapshot_storage']) {
+            $container->services()
+                ->get('essa.snapshot_storage')
+                ->class($config['default_snapshot_storage']);
         }
 
         $this->loadConfigs($container, $builder, $config);
@@ -130,6 +139,9 @@ class PfaffEssaBundle extends AbstractBundle
 
         $container->registerForAutoconfiguration(ProjectionRepository::class)
             ->addTag(ProjectionRepository::class);
+
+        $container->registerForAutoconfiguration(EventUpcaster::class)
+            ->addTag(EventUpcaster::class);
 
         $container->registerForAutoconfiguration(CommandHandler::class)
             ->addTag('messenger.message_handler', ['bus' => 'essa.bus.command']);

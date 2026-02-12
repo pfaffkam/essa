@@ -4,6 +4,7 @@ services:
   # >----------->
   PfaffKIT\Essa\EventSourcing\EventClassResolver: '@essa.event_class_resolver'
   PfaffKIT\Essa\EventSourcing\Storage\EventStorage: '@essa.event_storage'
+  PfaffKIT\Essa\EventSourcing\SnapshotStorage: '@essa.snapshot_storage'
   PfaffKIT\Essa\EventSourcing\Storage\AggregateRepository: '@essa.event_aggregate_repository'
   PfaffKIT\Essa\EventSourcing\Serializer\EventSerializer: '@essa.event_serializer'
   PfaffKIT\Essa\EventSourcing\Serializer\ProjectionSerializer: '@essa.projection_serializer'
@@ -14,12 +15,18 @@ services:
   PfaffKIT\Essa\Query\QueryBus: '@essa.query_bus'
   PfaffKIT\Essa\IntegrationEvent\IntegrationEventBus: '@essa.integration_event_bus'
   PfaffKIT\Essa\EventSourcing\Projection\ProjectionManagerInterface: '@essa.projection_manager'
+  PfaffKIT\Essa\EventSourcing\EventUpcasterChain: '@essa.event_upcaster_chain'
 
   # >------------------->
   # >>> Implementations
   # >------------------->
   essa.event_storage:
     class: PfaffKIT\Essa\EventSourcing\Storage\FallbackEventStorage # Will be replaced further in the bundle configuration
+    public: true
+    autowire: true
+
+  essa.snapshot_storage:
+    class: PfaffKIT\Essa\EventSourcing\Storage\FallbackSnapshotStorage # Will be replaced further in the bundle configuration
     public: true
     autowire: true
 
@@ -37,6 +44,7 @@ services:
   essa.projection_serializer:
     class: PfaffKIT\Essa\EventSourcing\Serializer\JsonProjectionSerializer
     public: true
+#    autoconfigure: true
     autowire: true
 
   essa.integration_event_serializer:
@@ -69,6 +77,11 @@ services:
 
   essa.projection_manager:
     class: PfaffKIT\Essa\EventSourcing\Projection\ProjectionManager
+    public: true
+    autowire: true
+
+  essa.event_upcaster_chain:
+    class: PfaffKIT\Essa\EventSourcing\EventUpcasterChain
     public: true
     autowire: true
 

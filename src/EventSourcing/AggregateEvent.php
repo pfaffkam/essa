@@ -16,4 +16,7 @@ interface AggregateEvent
     public EventTimestamp $timestamp { get; }
 
     public static function getEventName(): string;
+
+    public int $actualVersion { get; }
+    public static function getVersion(): int;
 }

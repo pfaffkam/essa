@@ -2,6 +2,7 @@
 
 namespace PfaffKIT\Essa\EventSourcing\Storage;
 
+use PfaffKIT\Essa\Shared\EventTimestamp;
 use PfaffKIT\Essa\Shared\Identity;
 
 class FallbackEventStorage implements EventStorage
@@ -11,7 +12,7 @@ class FallbackEventStorage implements EventStorage
         $this->generateException();
     }
 
-    public function load(Identity $aggregateId): array
+    public function load(Identity $aggregateId, ?EventTimestamp $timeFilterAfter = null): array
     {
         $this->generateException();
 
@@ -23,6 +24,7 @@ class FallbackEventStorage implements EventStorage
         int $batchSize = self::DEFAULT_BATCH_SIZE,
         array $limitEventTypes = [],
         array $limitAggregateIds = [],
+        ?EventTimestamp $timeFilterAfter = null,
     ): iterable {
         $this->generateException();
         yield from []; // This line will never be reached but satisfies static analysis

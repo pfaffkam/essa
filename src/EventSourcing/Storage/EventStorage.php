@@ -3,6 +3,7 @@
 namespace PfaffKIT\Essa\EventSourcing\Storage;
 
 use PfaffKIT\Essa\EventSourcing\AggregateEvent;
+use PfaffKIT\Essa\Shared\EventTimestamp;
 use PfaffKIT\Essa\Shared\Identity;
 
 interface EventStorage
@@ -17,7 +18,7 @@ interface EventStorage
     /**
      * @return AggregateEvent[]
      */
-    public function load(Identity $aggregateId): array;
+    public function load(Identity $aggregateId, ?EventTimestamp $timeFilterAfter = null): array;
 
     /**
      * Loads events in batches with optional type filtering.
@@ -32,6 +33,7 @@ interface EventStorage
         int $batchSize = self::DEFAULT_BATCH_SIZE,
         array $limitEventTypes = [],
         array $limitAggregateIds = [],
+        ?EventTimestamp $timeFilterAfter = null,
     ): iterable;
 
     public function count(array $limitEventTypes = [], array $limitAggregateIds = []): int;

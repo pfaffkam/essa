@@ -11,8 +11,9 @@ abstract readonly class AbstractAggregateEvent implements AggregateEvent
     public Identity $eventId;
     public Identity $aggregateId; // This is set 'magically' by the ESAggregateRoot - to allow clean constructor property promotion.
     public EventTimestamp $timestamp;
+    public int $actualVersion;
 
-    public function __construct(?Identity $eventId = null, ?EventTimestamp $timestamp = null, ?Identity $aggregateId = null)
+    public function __construct(?Identity $eventId = null, ?EventTimestamp $timestamp = null, ?Identity $aggregateId = null, ?int $actualVersion = null)
     {
         $this->eventId = $eventId ?? Id::new();
         $this->timestamp = $timestamp ?? EventTimestamp::now();
@@ -20,7 +21,14 @@ abstract readonly class AbstractAggregateEvent implements AggregateEvent
         if (null !== $aggregateId) {
             $this->aggregateId = $aggregateId;
         }
+
+        $this->actualVersion = $actualVersion ?? self::getVersion();
     }
 
     abstract public static function getEventName(): string;
+
+    public static function getVersion(): int
+    {
+        return 1;
+    }
 }

@@ -3,6 +3,7 @@
 namespace PfaffKIT\Essa\EventSourcing\Serializer;
 
 use PfaffKIT\Essa\EventSourcing\AggregateEvent;
+use PfaffKIT\Essa\EventSourcing\EventUpcasterChain;
 use PfaffKIT\Essa\EventSourcing\Serializer\Normalizer\AggregateEventNormalizer;
 use PfaffKIT\Essa\EventSourcing\Serializer\Normalizer\EventTimestampNormalizer;
 use PfaffKIT\Essa\EventSourcing\Serializer\Normalizer\IdentityNormalizer;
@@ -21,7 +22,9 @@ class JsonEventSerializer implements EventSerializer
 
     private SerializerInterface $serializer;
 
-    public function __construct(array $encoders = [], array $normalizers = [])
+    public function __construct(
+        private readonly EventUpcasterChain $eventUpcasterChain,
+        array $encoders = [], array $normalizers = [])
     {
         $encoders = array_merge(
             [new JsonEncoder()],
@@ -51,7 +54,9 @@ class JsonEventSerializer implements EventSerializer
 
     public function deserialize(string $data, string $type): AggregateEvent
     {
-        return $this->serializer->deserialize($data, $type, 'json');
+        $arrayData = $this->decode($data);
+
+        return $this->denormalize($arrayData, $type);
     }
 
     public function normalize(AggregateEvent $event): array
@@ -61,6 +66,8 @@ class JsonEventSerializer implements EventSerializer
 
     public function denormalize(array $data, string $type): AggregateEvent
     {
+        $data = $this->eventUpcasterChain->upcast($data);
+
         return $this->serializer->denormalize($data, $type);
     }
 
