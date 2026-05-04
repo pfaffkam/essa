@@ -95,9 +95,6 @@ services:
   # >>> Internals
   # >------------->
   # > Messenger
-  PfaffKIT\Essa\EventSourcing\Projection\HandlerFilterMiddleware:
-    tags: [ 'messenger.middleware' ]
-
   PfaffKIT\Essa\EventSourcing\Projection\ProjectionGeneralHandler:
     autowire: true
     autoconfigure: true
